@@ -1,4 +1,4 @@
-# Comprehensive Guide: AWS EKS Monitoring Cluster Setup with Prometheus, Grafana, and EFS Persistence
+# Comprehensive Guide: AWS EKS Monitoring Cluster Setup with Prometheus, Grafana, and EFS Persistence with nginx controller
 
 ## Introduction
 
