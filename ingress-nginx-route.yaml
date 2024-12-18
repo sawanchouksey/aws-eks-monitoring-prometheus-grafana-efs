@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress-with-annotations
+  namespace: monitoring # Replace with the actual namespace
+  annotations:
+    nginx.org/proxy-connect-timeout: "30s"
+    nginx.org/proxy-read-timeout: "30s"
+    nginx.org/client-max-body-size: "10m"
+    # nginx.org/server-snippets: |
+    #   location / {
+    #     return 302 /coffee;
+    #   }
+spec:
+  ingressClassName: nginx # Specifies the Ingress class as nginx
+  rules:
+    - host: grafana.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 80

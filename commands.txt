@@ -1,0 +1,51 @@
+terraform init
+
+terraform fmt
+
+terraform validate
+
+terraform plan
+
+terraform apply
+
+terraform destroy
+
+helm dependency build .\prometheus\prometheus\ -n monitoring
+
+helm install nginx-ingress .\nginx-ingress\ -n monitoring --create-namespace
+
+helm install grafana .\grafana\ -n monitoring --create-namespace
+
+kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+kubectl get svc -n monitoring
+
+kubectl apply -f .\ebs-sci.yaml 
+
+helm install prometheus .\prometheus\prometheus\ -n monitoring --create-namespace
+
+prometheus-server.monitoring.svc.cluster.local
+
+kubectl get events -n monitoring
+
+kubectl describe pvc prometheus-server -n monitoring 
+
+kubectl get pod -n monitoring
+
+kubectl edit sa -n kube-system efs-csi-controller-sa 
+
+kubectl apply -f ingress-csi-controller-sa.yaml
+
+```
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: efs-csi-controller-sa
+  namespace: kube-system
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/EFS-CsiDriverRole
+```
+
+
+
+
